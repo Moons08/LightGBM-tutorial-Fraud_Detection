@@ -16,7 +16,7 @@ def timer_memory(name):
     print('=====================================================')
 
 def predict():
-    bst = lgb.Booster(model_file='./data/mode2l.txt')
+    bst = lgb.Booster(model_file='./data/model.txt')
 
     for idx, df in enumerate(pd.read_csv("./data/edited_test.csv", chunksize=2000000)):
 
