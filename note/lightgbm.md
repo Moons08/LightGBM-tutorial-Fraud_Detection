@@ -1,8 +1,9 @@
 # LightGBM
 일반적인 GBDT (Gradient-Boosting-Decision-Tree)를 GOSS (Gradient-based One-Side-Sampling)와 EFB (Exclusive Feature Bundling)를 통해 발전시킨 모델
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
-[LightGBM: A Highly Efficient Gradient Boosting Decision Tree](https://papers.nips.cc/paper/6907-lightgbm-a-highly-efficient-gradient-boosting-decision-tree.pdf) - 관련 논문
-[참고 및 이미지 출처](https://medium.com/@pushkarmandot/https-medium-com-pushkarmandot-what-is-lightgbm-how-to-implement-it-how-to-fine-tune-the-parameters-60347819b7fc)
+- [관련 논문 : LightGBM: A Highly Efficient Gradient Boosting Decision Tree](https://papers.nips.cc/paper/6907-lightgbm-a-highly-efficient-gradient-boosting-decision-tree.pdf)
+- [참고 및 이미지 출처](https://medium.com/@pushkarmandot/https-medium-com-pushkarmandot-what-is-lightgbm-how-to-implement-it-how-to-fine-tune-the-parameters-60347819b7fc)
 
 ## 목차
 1. LightGBM을 쓰는 이유
