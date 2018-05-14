@@ -1,6 +1,5 @@
 # LightGBM
 일반적인 GBDT (Gradient-Boosting-Decision-Tree)를 GOSS (Gradient-based One-Side-Sampling)와 EFB (Exclusive Feature Bundling)를 통해 발전시킨 모델
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 - [관련 논문 : LightGBM: A Highly Efficient Gradient Boosting Decision Tree](https://papers.nips.cc/paper/6907-lightgbm-a-highly-efficient-gradient-boosting-decision-tree.pdf)
 - [참고 및 이미지 출처](https://medium.com/@pushkarmandot/https-medium-com-pushkarmandot-what-is-lightgbm-how-to-implement-it-how-to-fine-tune-the-parameters-60347819b7fc)
@@ -23,17 +22,18 @@ GBDT는 이름과 같이 의사결정 나무를 weak classifier로 사용하는 
     부스팅 방법은 미리 정해진 모형 집합을 사용하는 것이 아니라 단계적으로 모형 집합에 포함할 개별 모형을 선택합니다. 부스팅 방법에서는 성능이 떨어지는 개별 모형을 사용하며, 이를 약 분류기(weak classifier) 라고 합니다.
 
 - Gradient Boost란?
-    그레디언트 부스트 모형은 최적화에 사용되는 gradient descent 방법을 응용한 모형입니다. 함수 $f(x)$를 최소화하는  $x$는 다음과 같이 gradient descent 방법으로 찾을 수 있습니다.
-    $$ x_m = x_{m - 1} - \alpha_m \dfrac{df}{dx} $$
+    그레디언트 부스트 모형은 최적화에 사용되는 gradient descent 방법을 응용한 모형입니다. 함수 <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\dpi{120}&space;\fn_cs&space;$f(x)$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\dpi{100}&space;\fn_cs&space;$f(x)$" title="$f(x)$" /></a>를 최소화하는  <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\dpi{100}&space;\fn_cs&space;$f(x)$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\dpi{100}&space;\fn_cs&space;$x$" title="$x$" /></a>는 다음과 같이 gradient descent 방법으로 찾을 수 있습니다.
 
-    그레디언트 부스트 모형에서는 오차 함수 또는 손실 함수(loss function)  $L(y,C_{m-1})$을 최소화하는 weak classifier  $k_m $은  $\frac{-dL(y,C_{m-1})}{dC_{m-1}}$ 임을 알 수 있습니다.
+    <ul><a href="https://www.codecogs.com/eqnedit.php?latex=\dpi{120}&space;\fn_cs&space;$$&space;x_m&space;=&space;x_{m&space;-&space;1}&space;-&space;\alpha_m&space;\dfrac{df}{dx}&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\dpi{120}&space;\fn_cs&space;$$&space;x_m&space;=&space;x_{m&space;-&space;1}&space;-&space;\alpha_m&space;\dfrac{df}{dx}&space;$$" title="$$ x_m = x_{m - 1} - \alpha_m \dfrac{df}{dx} $$" /></a></ul>
 
-    $$C_{m} = C_{m-1} - \alpha_m \dfrac{dL(y, C_{m-1})}{dC_{m-1}} = C_{m-1} + \alpha_m k_m$$
+    그레디언트 부스트 모형에서는 오차 함수 또는 손실 함수(loss function)  <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\dpi{100}&space;\fn_cs&space;$L(y,C_{m-1})$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\dpi{100}&space;\fn_cs&space;$L(y,C_{m-1})$" title="$L(y,C_{m-1})$" /></a>을 최소화하는 weak classifier  <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\dpi{100}&space;\fn_cs&space;$k_m&space;$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\dpi{100}&space;\fn_cs&space;$k_m&space;$" title="$k_m $" /></a>은  <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\dpi{100}&space;\fn_cs&space;$$\dfrac{-dL(y,C_{m-1})}{dC_{m-1}}$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\dpi{100}&space;\fn_cs&space;$$\dfrac{-dL(y,C_{m-1})}{dC_{m-1}}$$" title="$$\dfrac{-dL(y,C_{m-1})}{dC_{m-1}}$$" /></a> 임을 알 수 있습니다.
+
+    <ul><a href="https://www.codecogs.com/eqnedit.php?latex=\dpi{120}&space;\fn_cs&space;$$C_{m}&space;=&space;C_{m-1}&space;-&space;\alpha_m&space;\dfrac{dL(y,&space;C_{m-1})}{dC_{m-1}}&space;=&space;C_{m-1}&space;&plus;&space;\alpha_m&space;k_m$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\dpi{120}&space;\fn_cs&space;$$C_{m}&space;=&space;C_{m-1}&space;-&space;\alpha_m&space;\dfrac{dL(y,&space;C_{m-1})}{dC_{m-1}}&space;=&space;C_{m-1}&space;&plus;&space;\alpha_m&space;k_m$$" title="$$C_{m} = C_{m-1} - \alpha_m \dfrac{dL(y, C_{m-1})}{dC_{m-1}} = C_{m-1} + \alpha_m k_m$$" /></a></ul>
 
     따라서 그레디언트 부스트 모형에서는 다음과 같은 과정을 반복합니다.
-    1. $-\tfrac{dL(y, C_m)}{dC_m}$을 타겟으로 하는 week classifier $k_m$을 찾는다.
-    1. $\left( y - (C_{m-1} + \alpha_m k_m) \right)^2$를 최소화하는 step size $\alpha_m$을 찾는다.
-    1. $C_m = C_{m-1} + \alpha_m k_m$ 최종 모형을 갱신한다.
+    1. <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\dpi{100}&space;\fn_cs&space;$$\dfrac{-dL(y,C_{m-1})}{dC_{m-1}}$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\dpi{100}&space;\fn_cs&space;$$\dfrac{-dL(y,C_{m-1})}{dC_{m-1}}$$" title="$$\dfrac{-dL(y,C_{m-1})}{dC_{m-1}}$$" /></a>을 타겟으로 하는 week classifier <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\dpi{100}&space;\fn_cs&space;$k_m$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\dpi{100}&space;\fn_cs&space;$k_m$" title="$k_m$" /></a>을 찾는다.
+    1. <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\dpi{100}&space;\fn_cs&space;$\left(&space;y&space;-&space;(C_{m-1}&space;&plus;&space;\alpha_m&space;k_m)&space;\right)^2$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\dpi{100}&space;\fn_cs&space;$\left(&space;y&space;-&space;(C_{m-1}&space;&plus;&space;\alpha_m&space;k_m)&space;\right)^2$" title="$\left( y - (C_{m-1} + \alpha_m k_m) \right)^2$" /></a>를 최소화하는 step size $\alpha_m$을 찾는다.
+    1. <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\dpi{100}&space;\fn_cs&space;$C_m&space;=&space;C_{m-1}&space;&plus;&space;\alpha_m&space;k_m$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\dpi{100}&space;\fn_cs&space;$C_m&space;=&space;C_{m-1}&space;&plus;&space;\alpha_m&space;k_m$" title="$C_m = C_{m-1} + \alpha_m k_m$" /></a>최종 모형을 갱신한다.
 
 
 ## Gradient-based One-Side-Sampling
