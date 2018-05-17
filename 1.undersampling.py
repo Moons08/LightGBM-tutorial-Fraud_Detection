@@ -6,16 +6,19 @@ from contextlib import contextmanager
 import psutil
 import time
 
+
 @contextmanager
 def timer_memory(name):
     t0 = time.time()
     yield
-    print(f'Memory: {(psutil.Process(os.getpid()).memory_info().rss/2**30):.02f}GB')
+    print(
+        f'Memory: {(psutil.Process(os.getpid()).memory_info().rss/2**30):.02f}GB')
     print(f'{name} done in {time.time()-t0:.0f}s')
     print('=====================================================')
 
+
 def under_sampling():
-    base = pd.read_csv('./data/edited.csv',chunksize=2000000)
+    base = pd.read_csv('./data/edited.csv', chunksize=2000000)
 
     for idx, df in enumerate(base):
 
@@ -31,10 +34,13 @@ def under_sampling():
         df = X.join(y)
 
         if not os.path.isfile('./data/undersampled.csv'):
-            df.to_csv('./data/undersampled.csv',header = df.columns, index=False)
+            df.to_csv('./data/undersampled.csv',
+                      header=df.columns, index=False)
         else:
-            df.to_csv('./data/undersampled.csv',mode = 'a',header=False, index=False)
+            df.to_csv('./data/undersampled.csv',
+                      mode='a', header=False, index=False)
         print(idx, "th under sampling done!")
+
 
 with timer_memory('undersampling'):
     under_sampling()
