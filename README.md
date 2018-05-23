@@ -22,15 +22,11 @@
 ### Note
 노트를 보시고 추가적으로 python파일을 보시는 것이 좋습니다.
 - 분석
-    1. [LightGBM이란?](https://github.com/Moons08/TalkingData-Fraud-Detection/blob/master/note/lightgbm.md)
-    1. [EDA](https://github.com/Moons08/TalkingData-Fraud-Detection/blob/master/note/00.EDA.ipynb)
-    1. [Modeling](https://github.com/Moons08/TalkingData-Fraud-Detection/blob/master/note/01.Modeling.ipynb)
-- 코드 (주석 추가 중 입니다.)
+    1. [LightGBM이란?](https://github.com/Moons08/LightGBM-tutorial-Fraud_Detection/blob/master/md/lightgbm.md)
+    1. [EDA](https://github.com/Moons08/TalkingData-Fraud-Detection/blob/master/md/00.EDA.md)
+    1. [Modeling](https://github.com/Moons08/TalkingData-Fraud-Detection/blob/master/md/01.Modeling.md)
+- 코드
     1. [edit_data.py](https://github.com/Moons08/LightGBM-tutorial-Fraud_Detection/blob/master/0.edit_data.py)
     1. [under_sampling.py](https://github.com/Moons08/LightGBM-tutorial-Fraud_Detection/blob/master/1.undersampling.py)
     1. [modeling.py](https://github.com/Moons08/LightGBM-tutorial-Fraud_Detection/blob/master/2.modeling.py)
     1. [predict.py](https://github.com/Moons08/LightGBM-tutorial-Fraud_Detection/blob/master/3.predict.py)
-
-### Feedback
-오류나 보완점에 대한 피드는 언제나 환영입니다!
-mskk0805@gmail.com
