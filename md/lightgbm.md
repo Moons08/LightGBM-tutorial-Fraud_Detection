@@ -45,12 +45,8 @@ Light GBM의 GOSS는 의사 결정 나무의 모든 잎(node)들을 차례대로
 - 단점:
 1. 과 최적화되기 쉽습니다.
 
-<p align="center">
-  <img src="https://github.com/Moons08/LightGBM-tutorial-Fraud_Detection/blob/master/img/leaf-wise.png?raw=true" width="700">
-</p>
-<p align="center">
-  <img src="https://github.com/Moons08/LightGBM-tutorial-Fraud_Detection/blob/master/img/level-wise.png?raw=true" width="700">
-</p>
+![png](./img/leaf-wise.png)
+![png](./img/level-wise.png)
 
 ## EFB
 
